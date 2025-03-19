@@ -68,6 +68,13 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    const auto converter = optionToConversion.find(option);
+    if (converter == optionToConversion.end()) {
+        std::cerr << "Invalid conversion option: " << option << '\n';
+        return 1;
+    }
+    conversion = converter->second;
+
     // convert using the current conversion
     // @concerns std::for_each, conversion
     std::for_each(text.begin(), text.end(), conversion);
