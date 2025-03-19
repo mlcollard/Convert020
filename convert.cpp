@@ -27,6 +27,8 @@ void toLower(char& c) {
 }
 
 // map from option to the conversion function
+// @concerns "--upper", "--lower"
+// @concerns toUpper(), toLower(), optionToConversion[out]
 const std::unordered_map<std::string_view, Convert> optionToConversion{
     { "--upper", toUpper },
     { "--lower", toLower },
@@ -50,30 +52,13 @@ int main(int argc, char* argv[]) {
     std::string text(argv[2]);
 
     // figure out, according to the option, which conversion to use
-    // @concerns "--upper", "--lower"
-    // @concerns toUpper(), toLower(), conversion[out]
-    // @concerns error handling, std::cerr
-    Convert conversion = nullptr;
-    if (option == "--upper") {
-
-        conversion = toUpper;
-
-    } else if (option == "--lower") {
-
-        conversion = toLower;
-
-    } else {
-
-        std::cerr << "Invalid conversion option: " << option << '\n';
-        return 1;
-    }
-
+    // @concerns optionToConversion, error handling, std::cerr
     const auto converter = optionToConversion.find(option);
     if (converter == optionToConversion.end()) {
         std::cerr << "Invalid conversion option: " << option << '\n';
         return 1;
     }
-    conversion = converter->second;
+    Convert conversion = converter->second;
 
     // convert using the current conversion
     // @concerns std::for_each, conversion
