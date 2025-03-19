@@ -42,23 +42,28 @@ int main(int argc, char* argv[]) {
     // @concerns input format, argv, std::string, text[out]
     std::string text(argv[2]);
 
-    // convert the string according to the option
+    // figure out, according to the option, which conversion to use
     // @concerns "--upper", "--lower"
-    // @concerns toUpper(), toLower(), std::for_each
+    // @concerns toUpper(), toLower(), conversion[out]
     // @concerns error handling, std::cerr
+    Convert conversion = nullptr;
     if (option == "--upper") {
 
-        std::for_each(text.begin(), text.end(), toUpper);
+        conversion = toUpper;
 
     } else if (option == "--lower") {
 
-        std::for_each(text.begin(), text.end(), toLower);
+        conversion = toLower;
 
     } else {
 
         std::cerr << "Invalid conversion option: " << option << '\n';
         return 1;
     }
+
+    // convert using the current conversion
+    // @concerns std::for_each, conversion
+    std::for_each(text.begin(), text.end(), conversion);
 
     // output converted text
     // @concerns output format, text, std::string, iteration, std::cout
