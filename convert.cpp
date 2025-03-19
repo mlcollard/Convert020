@@ -10,6 +10,7 @@
 #include <string_view>
 #include <cctype>
 #include <algorithm>
+#include <unordered_map>
 
 typedef void(*Convert)(char& c);
 
@@ -24,6 +25,12 @@ void toUpper(char& c) {
 void toLower(char& c) {
     c = std::tolower(c);
 }
+
+// map from option to the conversion function
+const std::unordered_map<std::string_view, Convert> optionToConversion{
+    { "--upper", toUpper },
+    { "--lower", toLower },
+};
 
 int main(int argc, char* argv[]) {
 
