@@ -14,24 +14,12 @@
 
 typedef void(*Convert)(char& c);
 
-// convert to upper case
-// @concerns std::toupper(), toUpper[out]
-void toUpper(char& c) {
-    c = std::toupper(c);
-}
-
-// convert to lower case
-// @concerns std::tolower(), toLower[out]
-void toLower(char& c) {
-    c = std::tolower(c);
-}
-
 // map from option to the conversion function
 // @concerns "--upper", "--lower"
 // @concerns toUpper(), toLower(), optionToConversion[out]
 const std::unordered_map<std::string_view, Convert> optionToConversion{
-    { "--upper", toUpper },
-    { "--lower", toLower },
+    { "--upper", [](char& c) { c = std::toupper(c); } },
+    { "--lower", [](char& c) { c = std::tolower(c); } },
 };
 
 int main(int argc, char* argv[]) {
