@@ -11,6 +11,8 @@
 #include <cctype>
 #include <algorithm>
 
+typedef void(*Convert)(char& c);
+
 // convert to upper case
 // @concerns std::toupper(), toUpper[out]
 void toUpper(char& c) {
